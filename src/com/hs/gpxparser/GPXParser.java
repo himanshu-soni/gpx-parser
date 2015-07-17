@@ -507,7 +507,14 @@ public class GPXParser extends BaseGPX {
 
 	private Date getNodeValueAsDate(Node node) throws DOMException, ParseException {
 		Date val = null;
-		val = xmlDateFormat.parse(node.getFirstChild().getNodeValue());
+		try {
+			val = xmlDateFormat.parse(node.getFirstChild().getNodeValue()
+					.replaceAll("([0-9\\-T]+:[0-9]{2}:[0-9.+]+):([0-9]{2})", "$1$2"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return val;
 	}
 

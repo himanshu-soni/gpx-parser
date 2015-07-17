@@ -1,7 +1,5 @@
 package com.hs.gpxparser.modal;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -51,12 +49,6 @@ public class Metadata extends Extension {
 
 	public void setTime(Date time) {
 		this.time = time;
-	}
-
-	public void setTime(long timeMillis) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		String date = sdf.format(new Date(timeMillis));
-		this.time = sdf.parse(date);
 	}
 
 	public Person getAuthor() {
