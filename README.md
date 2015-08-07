@@ -12,18 +12,17 @@ include jar to your classpath [Download JAR](https://github.com/himanshu-soni/gp
 To read GPX file:
 
 
-`GPXParser p = new GPXParser();`
-
-`FileInputStream in = new FileInputStream("inFile.gpx");`
-
-`GPX gpx = p.parseGPX(in);`
+```
+GPXParser p = new GPXParser();
+FileInputStream in = new FileInputStream("inFile.gpx");
+GPX gpx = p.parseGPX(in);
+```
 
 To write to GPX file:
 
-`GPXWriter writer = new GPXWriter();`
-
-`FileOutputStream out = new FileOutputStream("outFile.gpx");`
-
-`writer.writeGPX(gpx, out);`
-
-`out.close();`
+```
+GPXWriter writer = new GPXWriter();
+FileOutputStream out = new FileOutputStream("outFile.gpx");
+writer.writeGPX(gpx, out);
+out.close();
+```
