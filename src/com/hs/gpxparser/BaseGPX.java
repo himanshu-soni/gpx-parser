@@ -2,31 +2,35 @@ package com.hs.gpxparser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 import com.hs.gpxparser.extension.IExtensionParser;
 
 class BaseGPX {
 
-	protected final SimpleDateFormat xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-	protected final ArrayList<IExtensionParser> extensionParsers = new ArrayList<IExtensionParser>();
+    final SimpleDateFormat xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    final ArrayList<IExtensionParser> extensionParsers = new ArrayList<>();
 
-	/**
-	 * Adds a new extension parser to be used when parsing a gpx steam
-	 *
-	 * @param parser
-	 *            an instance of a {@link IExtensionParser} implementation
-	 */
-	public void addExtensionParser(IExtensionParser parser) {
-		this.extensionParsers.add(parser);
-	}
+    BaseGPX() {
+        // TF, 20170515: iso6801 dates are always in GMT timezone
+        xmlDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+    }
 
-	/**
-	 * Removes an extension parser previously added
-	 *
-	 * @param parser
-	 *            an instance of a {@link IExtensionParser} implementation
-	 */
-	public void removeExtensionParser(IExtensionParser parser) {
-		this.extensionParsers.remove(parser);
-	}
+    /**
+     * Adds a new extension parser to be used when parsing a gpx steam
+     *
+     * @param parser an instance of a {@link IExtensionParser} implementation
+     */
+    public void addExtensionParser(IExtensionParser parser) {
+        this.extensionParsers.add(parser);
+    }
+
+    /**
+     * Removes an extension parser previously added
+     *
+     * @param parser an instance of a {@link IExtensionParser} implementation
+     */
+    public void removeExtensionParser(IExtensionParser parser) {
+        this.extensionParsers.remove(parser);
+    }
 }
