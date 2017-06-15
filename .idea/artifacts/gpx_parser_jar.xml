@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="gpx-parser:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/gpx_parser_jar</output-path>
+    <root id="archive" name="gpx-parser.jar">
+      <element id="module-output" name="gpx-parser" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
