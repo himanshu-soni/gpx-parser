@@ -48,6 +48,12 @@ public class GPXWriter extends BaseGPX {
 			creatorNode.setNodeValue(gpx.getCreator());
 			attrs.setNamedItem(creatorNode);
 		}
+                // TFE, 20180201: support xmlns attribute
+		if (gpx.getXmlns()!= null) {
+			Node xmlnsNode = doc.createAttribute(GPXConstants.ATTR_XMLNS);
+			xmlnsNode.setNodeValue(gpx.getXmlns());
+			attrs.setNamedItem(xmlnsNode);
+		}
 		if (gpx.getMetadata() != null) {
 			this.addMetadataToNode(gpx.getMetadata(), gpxNode, doc);
 		}
@@ -346,8 +352,8 @@ public class GPXWriter extends BaseGPX {
 	}
 
 	private void addBoundsToNode(Bounds bounds, Node n, Document doc) {
-		Node bonundsNode = doc.createElement(GPXConstants.NODE_BOUNDS);
-		NamedNodeMap attributes = bonundsNode.getAttributes();
+		Node boundsNode = doc.createElement(GPXConstants.NODE_BOUNDS);
+		NamedNodeMap attributes = boundsNode.getAttributes();
 
 		Node node = doc.createAttribute(GPXConstants.ATTR_MINLAT);
 		node.setNodeValue(String.valueOf(bounds.getMinLat()));
@@ -364,6 +370,9 @@ public class GPXWriter extends BaseGPX {
 		node = doc.createAttribute(GPXConstants.ATTR_MAXLON);
 		node.setNodeValue(String.valueOf(bounds.getMaxLon()));
 		attributes.setNamedItem(node);
+                
+                // TFE, 20180201: bugfix - boundsNode wasn't appended
+                n.appendChild(boundsNode);
 	}
 
 	private void addCopyrightToNode(Copyright copyright, Node n, Document doc) {
@@ -387,7 +396,6 @@ public class GPXWriter extends BaseGPX {
 		}
 
 		n.appendChild(copyrightNode);
-
 	}
 
 	private void addAuthorToNode(Person author, Node n, Document doc) {

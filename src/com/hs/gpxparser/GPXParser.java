@@ -27,6 +27,7 @@ import com.hs.gpxparser.modal.Track;
 import com.hs.gpxparser.modal.TrackSegment;
 import com.hs.gpxparser.modal.Waypoint;
 import com.hs.gpxparser.type.Fix;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -48,6 +49,9 @@ import com.hs.gpxparser.type.Fix;
  * </code>
  */
 public class GPXParser extends BaseGPX {
+    
+    // TFE, 20180109: use pattern for parsing to improve performance
+    private final static Pattern datevaluePattern = Pattern.compile("([0-9\\-T]+:[0-9]{2}:[0-9.+]+):([0-9]{2})");
 
 	/**
 	 * Parses a stream containing GPX data
@@ -73,7 +77,10 @@ public class GPXParser extends BaseGPX {
 					gpx.setVersion(attr.getNodeValue());
 				} else if (GPXConstants.ATTR_CREATOR.equals(attr.getNodeName())) {
 					gpx.setCreator(attr.getNodeValue());
-				}
+                                // TFE, 20180201: support xmlns attribute
+				} else if (GPXConstants.ATTR_XMLNS.equals(attr.getNodeName())) {
+					gpx.setXmlns(attr.getNodeValue());
+                                }
 			}
 
 			NodeList nodes = firstChild.getChildNodes();
@@ -508,8 +515,11 @@ public class GPXParser extends BaseGPX {
 	private Date getNodeValueAsDate(Node node) throws DOMException, ParseException {
 		Date val = null;
 		try {
-			val = xmlDateFormat.parse(node.getFirstChild().getNodeValue()
-					.replaceAll("([0-9\\-T]+:[0-9]{2}:[0-9.+]+):([0-9]{2})", "$1$2"));
+                    // TFE, 20180109: use pre-compiled pattern instead of String.replaceAll
+//			val = xmlDateFormat.parse(node.getFirstChild().getNodeValue()
+//					.replaceAll("([0-9\\-T]+:[0-9]{2}:[0-9.+]+):([0-9]{2})", "$1$2"));
+                        val = xmlDateFormat.parse(
+                                datevaluePattern.matcher(node.getFirstChild().getNodeValue()).replaceAll("$1$2"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

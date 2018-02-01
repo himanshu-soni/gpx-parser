@@ -20,6 +20,8 @@ import java.util.HashSet;
 public class GPX extends Extension {
 
 	// Attributes
+        // TFE, 20180201: support xmlns attribute
+	private String xmlns;
 	private String creator;
 	private String version = "1.1";
 
@@ -30,9 +32,9 @@ public class GPX extends Extension {
 	private HashSet<Waypoint> waypoints;
 
 	public GPX() {
-		this.waypoints = new HashSet<Waypoint>();
-		this.tracks = new HashSet<Track>();
-		this.routes = new HashSet<Route>();
+		this.waypoints = new HashSet<>();
+		this.tracks = new HashSet<>();
+		this.routes = new HashSet<>();
 	}
 
 	/**
@@ -74,6 +76,15 @@ public class GPX extends Extension {
 		this.waypoints.add(waypoint);
 
 	}
+
+	/**
+	 * Returns the xmlns of this gpx object
+	 *
+	 * @return A String representing the xmlns of a gpx object
+	 */
+        public String getXmlns() {
+            return xmlns;
+        }
 
 	/**
 	 * Returns the creator of this gpx object
@@ -120,6 +131,17 @@ public class GPX extends Extension {
 		return this.waypoints;
 	}
 
+	/**
+	 * Setter for gpx xmlns property. This maps to <i>xmlns</i> attribute
+	 * value.
+	 *
+	 * @param xmlns
+	 *            A String representing the xmlns of a gpx file.
+	 */
+        public void setXmlns(String xmlns) {
+            this.xmlns = xmlns;
+        }
+    
 	/**
 	 * Setter for gpx creator property. This maps to <i>creator</i> attribute
 	 * value.
