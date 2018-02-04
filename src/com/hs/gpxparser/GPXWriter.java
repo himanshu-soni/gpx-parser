@@ -387,12 +387,12 @@ public class GPXWriter extends BaseGPX {
 		if (copyright.getYear() != null) {
 			Node node = doc.createElement(GPXConstants.NODE_YEAR);
 			node.appendChild(doc.createTextNode(copyright.getYear()));
-			n.appendChild(node);
+			copyrightNode.appendChild(node);
 		}
 		if (copyright.getLicense() != null) {
 			Node node = doc.createElement(GPXConstants.NODE_LICENSE);
 			node.appendChild(doc.createTextNode(copyright.getLicense()));
-			n.appendChild(node);
+			copyrightNode.appendChild(node);
 		}
 
 		n.appendChild(copyrightNode);
@@ -403,7 +403,7 @@ public class GPXWriter extends BaseGPX {
 		if (author.getName() != null) {
 			Node node = doc.createElement(GPXConstants.NODE_NAME);
 			node.appendChild(doc.createTextNode(author.getName()));
-			n.appendChild(node);
+			authorNode.appendChild(node);
 		}
 		if (author.getEmail() != null) {
 			this.addEmailToNode(author.getEmail(), authorNode, doc);
@@ -427,12 +427,12 @@ public class GPXWriter extends BaseGPX {
 		if (link.getText() != null) {
 			Node node = doc.createElement(GPXConstants.NODE_TEXT);
 			node.appendChild(doc.createTextNode(link.getText()));
-			n.appendChild(node);
+			linkNode.appendChild(node);
 		}
 		if (link.getType() != null) {
 			Node node = doc.createElement(GPXConstants.NODE_TYPE);
 			node.appendChild(doc.createTextNode(link.getType()));
-			n.appendChild(node);
+			linkNode.appendChild(node);
 		}
 
 		n.appendChild(linkNode);
@@ -452,6 +452,7 @@ public class GPXWriter extends BaseGPX {
 			attributes.setNamedItem(node);
 		}
 
+		n.appendChild(emailNode);
 	}
 
 	private void addExtensionToNode(Extension e, Node n, Document doc) {
