@@ -1,5 +1,6 @@
 package com.hs.gpxparser.modal;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -20,8 +21,8 @@ import java.util.HashSet;
 public class GPX extends Extension {
 
 	// Attributes
-        // TFE, 20180201: support xmlns attribute
-	private String xmlns;
+        // TFE, 20180201: support multiple xmlns attributes
+	private HashMap<String, String> xmlns;
 	private String creator;
 	private String version = "1.1";
 
@@ -45,7 +46,7 @@ public class GPX extends Extension {
 	 */
 	public void addRoute(Route route) {
 		if (this.routes == null) {
-			this.routes = new HashSet<Route>();
+			this.routes = new HashSet<>();
 		}
 		this.routes.add(route);
 	}
@@ -58,7 +59,7 @@ public class GPX extends Extension {
 	 */
 	public void addTrack(Track track) {
 		if (this.tracks == null) {
-			this.tracks = new HashSet<Track>();
+			this.tracks = new HashSet<>();
 		}
 		this.tracks.add(track);
 	}
@@ -71,7 +72,7 @@ public class GPX extends Extension {
 	 */
 	public void addWaypoint(Waypoint waypoint) {
 		if (this.waypoints == null) {
-			this.waypoints = new HashSet<Waypoint>();
+			this.waypoints = new HashSet<>();
 		}
 		this.waypoints.add(waypoint);
 
@@ -80,9 +81,9 @@ public class GPX extends Extension {
 	/**
 	 * Returns the xmlns of this gpx object
 	 *
-	 * @return A String representing the xmlns of a gpx object
+	 * @return A HashMap<String, String> representing the xmlns of a gpx object
 	 */
-        public String getXmlns() {
+        public HashMap<String, String> getXmlns() {
             return xmlns;
         }
 
@@ -136,9 +137,9 @@ public class GPX extends Extension {
 	 * value.
 	 *
 	 * @param xmlns
-	 *            A String representing the xmlns of a gpx file.
+	 *            A HashMap<String, String> representing the xmlns of a gpx file.
 	 */
-        public void setXmlns(String xmlns) {
+        public void setXmlns(HashMap<String, String> xmlns) {
             this.xmlns = xmlns;
         }
     
@@ -194,4 +195,17 @@ public class GPX extends Extension {
 	public void setVersion(String version) {
 		this.version = version;
 	}
+        
+	/**
+	 * Adds a new xmlns string into the xmlns data with the key set by xmlnsId.
+	 * 
+	 * @param xmlnsId a unique key representing the id of the xmlns content.
+	 * @param value a string holding the parsed information.
+	 */
+        public void addXmlns(final String xmlnsId, final String value) {
+            if(xmlns == null) {
+                xmlns = new HashMap<>();
+            }
+            xmlns.put(xmlnsId, value);
+        }
 }
