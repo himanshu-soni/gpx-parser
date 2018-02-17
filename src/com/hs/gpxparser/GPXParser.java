@@ -1,5 +1,6 @@
 package com.hs.gpxparser;
 
+import com.hs.gpxparser.extension.DummyExtensionParser;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.Date;
@@ -63,6 +64,11 @@ public class GPXParser extends BaseGPX {
 	 * @throws Exception
 	 */
 	public GPX parseGPX(InputStream in) throws Exception {
+                // TFE, 20180217: add default parser if none set
+                if (this.extensionParsers.isEmpty()) {
+                    this.extensionParsers.add(new DummyExtensionParser());
+                }
+            
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		Document doc = builder.parse(in);
 		Node firstChild = doc.getFirstChild();

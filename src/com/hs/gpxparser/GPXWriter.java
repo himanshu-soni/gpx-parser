@@ -1,5 +1,6 @@
 package com.hs.gpxparser;
 
+import com.hs.gpxparser.extension.DummyExtensionParser;
 import java.io.OutputStream;
 import java.util.Iterator;
 
@@ -33,7 +34,12 @@ import com.hs.gpxparser.modal.Waypoint;
 public class GPXWriter extends BaseGPX {
 
 	public void writeGPX(GPX gpx, OutputStream out) throws ParserConfigurationException, TransformerException {
-		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                // TFE, 20180217: add default parser if none set
+                if (this.extensionParsers.isEmpty()) {
+                    this.extensionParsers.add(new DummyExtensionParser());
+                }
+
+                DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		Document doc = builder.newDocument();
 		Node gpxNode = doc.createElement(GPXConstants.NODE_GPX);
 
@@ -459,7 +465,7 @@ public class GPXWriter extends BaseGPX {
 		if (e.getExtensionsParsed() > 0) {
 			Node node = doc.createElement(GPXConstants.NODE_EXTENSIONS);
 			for (IExtensionParser parser : this.extensionParsers) {
-				parser.writeExtensions(node, doc);
+				parser.writeExtensions(e, node, doc);
 			}
 			n.appendChild(node);
 		}
