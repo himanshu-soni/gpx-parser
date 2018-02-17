@@ -36,8 +36,14 @@ public class Extension {
 	 * 				the extension parser's job to set it properly.
 	 */
 	public void addExtensionData(String parserId, Object data) {
+                // TFE, 20180217
+                // don't add null data - otherwise for each parser one null entry would be added
+                // to each extension in a gpx file! That is too much waste considering
+                // that in most cases no extensions at all are present
+                if (data == null) return;
+                
 		if(extensionData == null) {
-			extensionData = new HashMap<String, Object>();
+			extensionData = new HashMap<>();
 		}
 		extensionData.put(parserId, data);
 	}
