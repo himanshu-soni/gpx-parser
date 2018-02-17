@@ -1,5 +1,6 @@
 package com.hs.gpxparser;
 
+import com.hs.gpxparser.extension.DummyExtensionParser;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.util.Date;
@@ -27,6 +28,7 @@ import com.hs.gpxparser.modal.Track;
 import com.hs.gpxparser.modal.TrackSegment;
 import com.hs.gpxparser.modal.Waypoint;
 import com.hs.gpxparser.type.Fix;
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -48,6 +50,9 @@ import com.hs.gpxparser.type.Fix;
  * </code>
  */
 public class GPXParser extends BaseGPX {
+    
+    // TFE, 20180109: use pattern for parsing to improve performance
+    private final static Pattern datevaluePattern = Pattern.compile("([0-9\\-T]+:[0-9]{2}:[0-9.+]+):([0-9]{2})");
 
 	/**
 	 * Parses a stream containing GPX data
@@ -59,6 +64,11 @@ public class GPXParser extends BaseGPX {
 	 * @throws Exception
 	 */
 	public GPX parseGPX(InputStream in) throws Exception {
+                // TFE, 20180217: add default parser if none set
+                if (this.extensionParsers.isEmpty()) {
+                    this.extensionParsers.add(new DummyExtensionParser());
+                }
+            
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		Document doc = builder.parse(in);
 		Node firstChild = doc.getFirstChild();
@@ -73,7 +83,10 @@ public class GPXParser extends BaseGPX {
 					gpx.setVersion(attr.getNodeValue());
 				} else if (GPXConstants.ATTR_CREATOR.equals(attr.getNodeName())) {
 					gpx.setCreator(attr.getNodeValue());
-				}
+                                // TFE, 20180201: support multiple xmlns attributes
+				} else if (attr.getNodeName().startsWith(GPXConstants.ATTR_XMLNS)) {
+					gpx.addXmlns(attr.getNodeName(), attr.getNodeValue());
+                                }
 			}
 
 			NodeList nodes = firstChild.getChildNodes();
@@ -508,8 +521,11 @@ public class GPXParser extends BaseGPX {
 	private Date getNodeValueAsDate(Node node) throws DOMException, ParseException {
 		Date val = null;
 		try {
-			val = xmlDateFormat.parse(node.getFirstChild().getNodeValue()
-					.replaceAll("([0-9\\-T]+:[0-9]{2}:[0-9.+]+):([0-9]{2})", "$1$2"));
+                    // TFE, 20180109: use pre-compiled pattern instead of String.replaceAll
+//			val = xmlDateFormat.parse(node.getFirstChild().getNodeValue()
+//					.replaceAll("([0-9\\-T]+:[0-9]{2}:[0-9.+]+):([0-9]{2})", "$1$2"));
+                        val = xmlDateFormat.parse(
+                                datevaluePattern.matcher(node.getFirstChild().getNodeValue()).replaceAll("$1$2"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
