@@ -83,9 +83,9 @@ public class GPXParser extends BaseGPX {
 					gpx.setVersion(attr.getNodeValue());
 				} else if (GPXConstants.ATTR_CREATOR.equals(attr.getNodeName())) {
 					gpx.setCreator(attr.getNodeValue());
-                                // TFE, 20180201: support xmlns attribute
-				} else if (GPXConstants.ATTR_XMLNS.equals(attr.getNodeName())) {
-					gpx.setXmlns(attr.getNodeValue());
+                                // TFE, 20180201: support multiple xmlns attributes
+				} else if (attr.getNodeName().startsWith(GPXConstants.ATTR_XMLNS)) {
+					gpx.addXmlns(attr.getNodeName(), attr.getNodeValue());
                                 }
 			}
 

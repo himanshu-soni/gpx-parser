@@ -30,6 +30,7 @@ import com.hs.gpxparser.modal.Route;
 import com.hs.gpxparser.modal.Track;
 import com.hs.gpxparser.modal.TrackSegment;
 import com.hs.gpxparser.modal.Waypoint;
+import java.util.Map;
 
 public class GPXWriter extends BaseGPX {
 
@@ -55,10 +56,12 @@ public class GPXWriter extends BaseGPX {
 			attrs.setNamedItem(creatorNode);
 		}
                 // TFE, 20180201: support xmlns attribute
-		if (gpx.getXmlns()!= null) {
-			Node xmlnsNode = doc.createAttribute(GPXConstants.ATTR_XMLNS);
-			xmlnsNode.setNodeValue(gpx.getXmlns());
+		if (gpx.getXmlns() != null && !gpx.getXmlns().isEmpty()) {
+                    for (Map.Entry<String, String> entry : gpx.getXmlns().entrySet()) {
+			Node xmlnsNode = doc.createAttribute(entry.getKey());
+			xmlnsNode.setNodeValue(entry.getValue());
 			attrs.setNamedItem(xmlnsNode);
+                    }
 		}
 		if (gpx.getMetadata() != null) {
 			this.addMetadataToNode(gpx.getMetadata(), gpxNode, doc);
