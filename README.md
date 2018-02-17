@@ -7,7 +7,7 @@ Follows [GPX schema version 1.1](http://www.topografix.com/gpx/1/1/)
 
 
 ## Example Uses:
-include jar to your classpath [Download JAR](https://github.com/ThomasDaheim/gpx-parser/files/1733762/gpx-parser-1.2.jar.zip)
+include jar to your classpath [Download JAR](https://github.com/ThomasDaheim/gpx-parser/files/1733894/gpx-parser-1.2.jar.zip)
 
 To read GPX file:
 
