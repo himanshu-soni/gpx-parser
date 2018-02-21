@@ -21,6 +21,15 @@ hs_err_pid*
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
+# netbeans
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+build.xml
+
 ### Java template
 # Compiled class file
 *.class

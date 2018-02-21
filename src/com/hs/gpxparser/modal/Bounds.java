@@ -47,4 +47,12 @@ public class Bounds {
     public void setMaxLon(double maxLon) {
         this.maxLon = maxLon;
     }
+
+    // TFE, 20180201: helper method to extend bounds easily
+    public void extendBounds(final Bounds bounds) {
+        this.minLat = Math.min(minLat, bounds.minLat);
+        this.maxLat = Math.max(maxLat, bounds.maxLat);
+        this.minLon = Math.min(minLon, bounds.minLon);
+        this.maxLon = Math.max(maxLon, bounds.maxLon);
+    }
 }

@@ -6,6 +6,8 @@ public interface GPXConstants {
 	String NODE_GPX = "gpx";
 
 	/* GPX nodes and attributes */
+        // TFE, 20180201: some gpx parser fail if no xmlns defined
+	String ATTR_XMLNS = "xmlns";
 	String ATTR_CREATOR = "creator";
 	String ATTR_VERSION = "version";
 
