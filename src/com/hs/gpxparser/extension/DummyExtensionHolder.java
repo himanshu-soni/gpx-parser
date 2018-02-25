@@ -39,10 +39,10 @@ import org.w3c.dom.NodeList;
 public class DummyExtensionHolder {
     private NodeList myNodeList;
 
-    DummyExtensionHolder() {
+    public DummyExtensionHolder() {
     }
 
-    DummyExtensionHolder(final NodeList childNodes) {
+    public DummyExtensionHolder(final NodeList childNodes) {
         myNodeList = childNodes;
     }
     
