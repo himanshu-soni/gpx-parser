@@ -524,8 +524,13 @@ public class GPXParser extends BaseGPX {
                     // TFE, 20180109: use pre-compiled pattern instead of String.replaceAll
 //			val = xmlDateFormat.parse(node.getFirstChild().getNodeValue()
 //					.replaceAll("([0-9\\-T]+:[0-9]{2}:[0-9.+]+):([0-9]{2})", "$1$2"));
+                    // TFE, 20180223: allow for errors with missing "Z" at the end of the string...
+                    String nodeValue = node.getFirstChild().getNodeValue();
+                    if (!nodeValue.endsWith("Z")) {
+                        nodeValue += "Z";
+                    }
                         val = xmlDateFormat.parse(
-                                datevaluePattern.matcher(node.getFirstChild().getNodeValue()).replaceAll("$1$2"));
+                                datevaluePattern.matcher(nodeValue).replaceAll("$1$2"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
