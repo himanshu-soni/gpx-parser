@@ -29,6 +29,7 @@ import com.hs.gpxparser.modal.TrackSegment;
 import com.hs.gpxparser.modal.Waypoint;
 import com.hs.gpxparser.type.Fix;
 import java.util.regex.Pattern;
+import javax.xml.XMLConstants;
 
 /**
  * <p>
@@ -69,7 +70,10 @@ public class GPXParser extends BaseGPX {
                     this.extensionParsers.add(new DummyExtensionParser());
                 }
             
-		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                // TFE, 20190905: fix for issue #12
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(in);
 		Node firstChild = doc.getFirstChild();
 		if (firstChild != null && GPXConstants.NODE_GPX.equals(firstChild.getNodeName())) {
