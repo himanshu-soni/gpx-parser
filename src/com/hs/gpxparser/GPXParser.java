@@ -533,8 +533,13 @@ public class GPXParser extends BaseGPX {
                     if (!nodeValue.endsWith("Z")) {
                         nodeValue += "Z";
                     }
-                        val = xmlDateFormat.parse(
-                                datevaluePattern.matcher(nodeValue).replaceAll("$1$2"));
+                    // TFE, 20181105: add support for milli seconds during read
+                    final String parseValue = datevaluePattern.matcher(nodeValue).replaceAll("$1$2");
+                    if (parseValue.length() == xmlDateFormatWithMilli_length) {
+                        val = xmlDateFormatWithMilli.parse(parseValue);
+                    } else {
+                        val = xmlDateFormat.parse(parseValue);
+                    }
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
