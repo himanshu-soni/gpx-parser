@@ -8,7 +8,10 @@ import com.hs.gpxparser.extension.IExtensionParser;
 
 class BaseGPX {
 
-    final SimpleDateFormat xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    // TFE, 20181105: add support for milli seconds in timestamps
+    final static SimpleDateFormat xmlDateFormatWithMilli = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    final static int xmlDateFormatWithMilli_length = 24;
+    final static SimpleDateFormat xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
     final ArrayList<IExtensionParser> extensionParsers = new ArrayList<>();
 
     BaseGPX() {

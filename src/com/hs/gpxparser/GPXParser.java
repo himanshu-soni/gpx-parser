@@ -29,6 +29,7 @@ import com.hs.gpxparser.modal.TrackSegment;
 import com.hs.gpxparser.modal.Waypoint;
 import com.hs.gpxparser.type.Fix;
 import java.util.regex.Pattern;
+import javax.xml.XMLConstants;
 
 /**
  * <p>
@@ -69,7 +70,10 @@ public class GPXParser extends BaseGPX {
                     this.extensionParsers.add(new DummyExtensionParser());
                 }
             
-		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                // TFE, 20190905: fix for issue #12
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document doc = builder.parse(in);
 		Node firstChild = doc.getFirstChild();
 		if (firstChild != null && GPXConstants.NODE_GPX.equals(firstChild.getNodeName())) {
@@ -529,8 +533,13 @@ public class GPXParser extends BaseGPX {
                     if (!nodeValue.endsWith("Z")) {
                         nodeValue += "Z";
                     }
-                        val = xmlDateFormat.parse(
-                                datevaluePattern.matcher(nodeValue).replaceAll("$1$2"));
+                    // TFE, 20181105: add support for milli seconds during read
+                    final String parseValue = datevaluePattern.matcher(nodeValue).replaceAll("$1$2");
+                    if (parseValue.length() == xmlDateFormatWithMilli_length) {
+                        val = xmlDateFormatWithMilli.parse(parseValue);
+                    } else {
+                        val = xmlDateFormat.parse(parseValue);
+                    }
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
