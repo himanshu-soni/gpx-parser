@@ -535,11 +535,24 @@ public class GPXParser extends BaseGPX {
                     }
                     // TFE, 20181105: add support for milli seconds during read
                     final String parseValue = datevaluePattern.matcher(nodeValue).replaceAll("$1$2");
-                    if (parseValue.length() == xmlDateFormatWithMilli_length) {
-                        val = xmlDateFormatWithMilli.parse(parseValue);
-                    } else {
-                        val = xmlDateFormat.parse(parseValue);
+                    switch (parseValue.length()) {
+                        case xmlDateFormatWithMilliAndZone_length:
+                            val = xmlDateFormatWithMilliAndZone.parse(parseValue);
+                            break;
+                        case xmlDateFormatWithMilli_length:
+                            val = xmlDateFormatWithMilli.parse(parseValue);
+                            break;
+                        case xmlDateFormatAndZone_length:
+                            val = xmlDateFormatAndZone.parse(parseValue);
+                            break;
+                        default:
+                            val = xmlDateFormat.parse(parseValue);
                     }
+//                    if (parseValue.length() == xmlDateFormatWithMilli_length) {
+//                        val = xmlDateFormatWithMilli.parse(parseValue);
+//                    } else {
+//                        val = xmlDateFormat.parse(parseValue);
+//                    }
 		} catch (ParseException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
