@@ -17,6 +17,8 @@ class BaseGPX {
     BaseGPX() {
         // TF, 20170515: iso6801 dates are always in GMT timezone
         xmlDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        // TF, 20191229: set timezone for milli as well, see issue #18
+        xmlDateFormatWithMilli.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
     /**
