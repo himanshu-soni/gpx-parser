@@ -13,7 +13,7 @@ Follows [GPX schema version 1.1](http://www.topografix.com/gpx/1/1/)
 ```groovy
 compile 'me.himanshusoni.gpxparser:gpx-parser:1.12'
  // or 
-implemenetation 'me.himanshusoni.gpxparser:gpx-parser:1.12'
+implementation 'me.himanshusoni.gpxparser:gpx-parser:1.12'
 ```
 
 **Maven**
