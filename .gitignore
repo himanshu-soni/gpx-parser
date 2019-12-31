@@ -8,7 +8,7 @@ hs_err_pid*
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
-
+local.properties
 
 ## File-based project format:
 *.iml
