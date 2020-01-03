@@ -2,6 +2,7 @@ package me.himanshusoni.gpxparser.modal;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * This class holds gpx information from a &lt;gpx&gt; node. <br>
@@ -33,9 +34,9 @@ public class GPX extends Extension {
 	private HashSet<Waypoint> waypoints;
 
 	public GPX() {
-		this.waypoints = new HashSet<>();
-		this.tracks = new HashSet<>();
-		this.routes = new HashSet<>();
+		routes = new LinkedHashSet();
+		tracks = new LinkedHashSet();
+		waypoints = new LinkedHashSet();
 	}
 
 	/**
