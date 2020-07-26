@@ -6,8 +6,10 @@ public interface GPXConstants {
 	String NODE_GPX = "gpx";
 
 	/* GPX nodes and attributes */
-        // TFE, 20180201: some gpx parser fail if no xmlns defined
+	// TFE, 20180201: some gpx parser fail if no xmlns defined
 	String ATTR_XMLNS = "xmlns";
+	// TFE, 20200726: garmin adds xsi:schemalocation to gpx files
+	String ATTR_XSI = "xsi";
 	String ATTR_CREATOR = "creator";
 	String ATTR_VERSION = "version";
 
