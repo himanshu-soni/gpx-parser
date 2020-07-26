@@ -1,10 +1,11 @@
-package com.hs.gpxparser;
+package me.himanshusoni.gpxparser;
+
+import me.himanshusoni.gpxparser.extension.IExtensionParser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
-import com.hs.gpxparser.extension.IExtensionParser;
 
 class BaseGPX {
 
@@ -17,8 +18,6 @@ class BaseGPX {
     BaseGPX() {
         // TF, 20170515: iso6801 dates are always in GMT timezone
         xmlDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        // TF, 20191229: set timezone for milli as well, see issue #18
-        xmlDateFormatWithMilli.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
     /**
