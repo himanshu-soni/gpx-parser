@@ -9,6 +9,7 @@ import org.w3c.dom.*;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.Iterator;
@@ -54,7 +55,11 @@ public class GPXParser extends BaseGPX {
 
         // TFE, 20190905: fix for issue #12
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        try {
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(in);
         Node firstChild = doc.getFirstChild();
@@ -69,8 +74,8 @@ public class GPXParser extends BaseGPX {
                     gpx.setVersion(attr.getNodeValue());
                 } else if (GPXConstants.ATTR_CREATOR.equals(attr.getNodeName())) {
                     gpx.setCreator(attr.getNodeValue());
-                // TFE, 20180201: support multiple xmlns attributes
-                // TFE, 20200726: treat xsi as xmlns attribute
+                    // TFE, 20180201: support multiple xmlns attributes
+                    // TFE, 20200726: treat xsi as xmlns attribute
                 } else if (attr.getNodeName().startsWith(GPXConstants.ATTR_XMLNS) ||
                         attr.getNodeName().startsWith(GPXConstants.ATTR_XSI)) {
                     gpx.addXmlns(attr.getNodeName(), attr.getNodeValue());
