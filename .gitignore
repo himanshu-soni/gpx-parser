@@ -10,6 +10,10 @@ hs_err_pid*
 .idea/dictionaries
 local.properties
 
+# Gradle files
+.gradle/
+build/
+
 ## File-based project format:
 *.iml
 

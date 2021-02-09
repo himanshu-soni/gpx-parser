@@ -11,9 +11,9 @@ Follows [GPX schema version 1.1](http://www.topografix.com/gpx/1/1/)
 **Gradle**
 
 ```groovy
-compile 'me.himanshusoni.gpxparser:gpx-parser:1.12'
+compile 'me.himanshusoni.gpxparser:gpx-parser:1.13'
  // or 
-implementation 'me.himanshusoni.gpxparser:gpx-parser:1.12'
+implementation 'me.himanshusoni.gpxparser:gpx-parser:1.13'
 ```
 
 **Maven**
@@ -21,14 +21,14 @@ implementation 'me.himanshusoni.gpxparser:gpx-parser:1.12'
 <dependency>
     <groupId>me.himanshusoni.gpxparser</groupId>
     <artifactId>gpx-parser</artifactId>
-    <version>1.12</version>
+    <version>1.13</version>
     <type>pom</type>
 </dependency>
 ```
 
 **Jar**
 
-Download [Jar](https://jcenter.bintray.com/me/himanshusoni/gpxparser/gpx-parser/1.12/gpx-parser-1.12.jar) and include to your classpath.
+Download [Jar](https://jcenter.bintray.com/me/himanshusoni/gpxparser/gpx-parser/1.13/gpx-parser-1.13.jar) and include to your classpath.
 
 
 ## Example Uses:
