@@ -191,12 +191,15 @@ public class GPXWriter extends BaseGPX {
     private void addWaypointToNode(String tag, Waypoint wpt, Node n, Document doc) {
         Node wptNode = doc.createElement(tag);
         NamedNodeMap attrs = wptNode.getAttributes();
-        if (wpt.getLatitude() != 0) {
+        // TFE, 20210802: lat & lon can be ZERO! so we need a more clever way to identify empty entries...
+        // Double.NaN might be useful but that would probably require major changes in various places
+        // so lets try the next best thing: check if at least one of lat / lon is not equal to zero
+        // this reduces the special case to one single point in the atlantic
+        if ((wpt.getLatitude() != 0) && (wpt.getLongitude() != 0)) {
             Node latNode = doc.createAttribute(GPXConstants.ATTR_LAT);
             latNode.setNodeValue(String.valueOf(wpt.getLatitude()));
             attrs.setNamedItem(latNode);
-        }
-        if (wpt.getLongitude() != 0) {
+            
             Node longNode = doc.createAttribute(GPXConstants.ATTR_LON);
             longNode.setNodeValue(String.valueOf(wpt.getLongitude()));
             attrs.setNamedItem(longNode);
