@@ -191,19 +191,20 @@ public class GPXWriter extends BaseGPX {
     private void addWaypointToNode(String tag, Waypoint wpt, Node n, Document doc) {
         Node wptNode = doc.createElement(tag);
         NamedNodeMap attrs = wptNode.getAttributes();
-        // TFE, 20210802: lat & lon can be ZERO! so we need a more clever way to identify empty entries...
-        // Double.NaN might be useful but that would probably require major changes in various places
-        // so lets try the next best thing: check if at least one of lat / lon is not equal to zero
-        // this reduces the special case to one single point in the atlantic
-        if ((wpt.getLatitude() != 0) && (wpt.getLongitude() != 0)) {
-            Node latNode = doc.createAttribute(GPXConstants.ATTR_LAT);
-            latNode.setNodeValue(String.valueOf(wpt.getLatitude()));
-            attrs.setNamedItem(latNode);
-            
-            Node longNode = doc.createAttribute(GPXConstants.ATTR_LON);
-            longNode.setNodeValue(String.valueOf(wpt.getLongitude()));
-            attrs.setNamedItem(longNode);
-        }
+        // TFE, 20210802: lat & lon can be ZERO!
+        // AND they are required according to https://www.topografix.com/GPX/1/1/gpx.xsd
+        // <xsd:attribute name="lat" type="latitudeType" use="required"></xsd:attribute>
+        // <xsd:attribute name="lon" type="longitudeType" use="required"></xsd:attribute>
+        // so we should always write the attributes to create correct gpx
+        // AND btw that is the reason why GPXParser throws an exception if lat or lon are not present...
+        Node latNode = doc.createAttribute(GPXConstants.ATTR_LAT);
+        latNode.setNodeValue(String.valueOf(wpt.getLatitude()));
+        attrs.setNamedItem(latNode);
+
+        Node longNode = doc.createAttribute(GPXConstants.ATTR_LON);
+        longNode.setNodeValue(String.valueOf(wpt.getLongitude()));
+        attrs.setNamedItem(longNode);
+
         if (wpt.getElevation() != 0) {
             Node node = doc.createElement(GPXConstants.NODE_ELE);
             node.appendChild(doc.createTextNode(String.valueOf(wpt.getElevation())));
