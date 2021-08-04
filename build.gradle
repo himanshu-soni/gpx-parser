@@ -3,7 +3,7 @@ apply plugin: "com.github.dcendents.android-maven"
 apply plugin: "com.jfrog.bintray"
 
 group 'me.himanshusoni.gpxparser'
-version '1.13'
+version '1.14'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
