@@ -25,7 +25,7 @@ public class GPXWriter extends BaseGPX {
         writeGPX(gpx, out, 0);
     }
 
-    public void writeGPX(GPX gpx, OutputStream out, int intent) throws ParserConfigurationException, TransformerException {
+    public void writeGPX(GPX gpx, OutputStream out, int indent) throws ParserConfigurationException, TransformerException {
         // TFE, 20180217: add default parser if none set
         if (this.extensionParsers.isEmpty()) {
             this.extensionParsers.add(new DummyExtensionParser());
@@ -82,9 +82,9 @@ public class GPXWriter extends BaseGPX {
 
         DOMSource source = new DOMSource(doc);
         StreamResult result = new StreamResult(out);
-        if (intent > 0) {
+        if (indent > 0) {
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(intent));
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(indent));
         }
         transformer.transform(source, result);
     }
