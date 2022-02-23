@@ -10,6 +10,7 @@ import org.w3c.dom.Node;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -21,6 +22,10 @@ import java.util.Map;
 public class GPXWriter extends BaseGPX {
 
     public void writeGPX(GPX gpx, OutputStream out) throws ParserConfigurationException, TransformerException {
+        writeGPX(gpx, out, 0);
+    }
+
+    public void writeGPX(GPX gpx, OutputStream out, int intent) throws ParserConfigurationException, TransformerException {
         // TFE, 20180217: add default parser if none set
         if (this.extensionParsers.isEmpty()) {
             this.extensionParsers.add(new DummyExtensionParser());
@@ -77,6 +82,10 @@ public class GPXWriter extends BaseGPX {
 
         DOMSource source = new DOMSource(doc);
         StreamResult result = new StreamResult(out);
+        if (intent > 0) {
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", Integer.toString(intent));
+        }
         transformer.transform(source, result);
     }
 
